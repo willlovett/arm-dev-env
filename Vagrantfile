@@ -10,7 +10,6 @@ VAGRANTFILE_API_VERSION = "2"
 # Read in default settings from settings file, and override them with
 # any environment variables
 settings = JSON.parse(open("default_settings.json").read())
-puts "Settings is    : '#{settings}'"
 
 for setting in settings.keys
   if ENV[setting]
@@ -24,7 +23,6 @@ for setting in settings.keys
     end
   end
 end
-puts "Settings is now: '#{settings}'"
 
 Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   # All Vagrant configuration is done here. The most common configuration
@@ -64,11 +62,12 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   # Default value: false
   # config.ssh.forward_agent = true
 
-  # Share an additional folder to the guest VM. The first argument is
-  # the path on the host to the actual folder. The second argument is
-  # the path on the guest to mount the folder. And the optional third
-  # argument is a set of non-required options.
-  # config.vm.synced_folder "../data", "/vagrant_data"
+  # WL: TODO - virtualbox guest additions is out of sync with my
+  # virtualbox version, which means synced folders aren't working for
+  # me right now.  Digest
+  # https://github.com/mitchellh/vagrant/issues/3341 and work out a
+  # fix
+  # config.vm.synced_folder settings['VAGRANT_EXPORT_DIR'], "/export", owner: settings['VAGRANT_DEV_USER']
 
   config.vm.provider "virtualbox" do |vb|
     vb.cpus = settings['VAGRANT_NUM_CPUS']

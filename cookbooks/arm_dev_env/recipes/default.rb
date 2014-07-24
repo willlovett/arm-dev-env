@@ -9,3 +9,6 @@
 
 # Set up users and passwords
 include_recipe "arm_dev_env::users"
+
+# Install a bunch of packages
+include_recipe "arm_dev_env::packages"
